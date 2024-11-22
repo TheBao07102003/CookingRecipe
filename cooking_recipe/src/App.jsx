@@ -4,6 +4,11 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./Customer/Home/Home";
 import OurStory from "./Customer/Our Story/Ourstory";
 
+import Opening from "./Customer/Screen/Opening";
+import Login from "./Customer/Screen/Login";
+import Signup from "./Customer/Screen/Signup";
+import Logout from "./Customer/Screen/Logout";
+
 import Recipes from "./Customer/Recipes/Recipes";
 import VietnamRecipes from "./Customer/Recipes/VietnamRecipes";
 import USARecipes from "./Customer/Recipes/USARecipes";
@@ -44,6 +49,12 @@ function App() {
         <Route path="/Recipes/stirfrying" element={<StirFryingRecipes />} />
         <Route path="/Recipes/roasting" element={<RoastingRecipes />} />
         <Route path="/Recipes/steaming" element={<SteamingRecipes />} />
+
+        {/* Opening */}
+        <Route path="/Opening" element={<Opening />} />
+        <Route path="/Login" element={<Login />} />
+        <Route path="/Signup" element={<Signup />} />
+        <Route path="/Logout" element={<Logout />} />
 
       </Routes>
     </div>
