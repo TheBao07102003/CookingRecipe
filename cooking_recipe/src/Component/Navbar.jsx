@@ -243,7 +243,7 @@ const Navbar = () => {
         >
           Recipes
         </NavLink>
-        <div style={{ marginLeft: "4px" }}>
+        <NavLink to={"/Wishlist"} style={{ marginLeft: "4px" }}>
           <svg
             width="42"
             height="30"
@@ -266,23 +266,26 @@ const Navbar = () => {
               />
             </g>
           </svg>
-        </div>
+        </NavLink>
       </div>
 
-      {/* Profile Image Section */}
-      <div
-        style={{ marginLeft: "auto", display: "flex", alignItems: "center" }}
+      <NavLink
+        to={"/Login"}
+        style={{
+          margin: "auto",
+          color: "#593329",
+          border: "1px solid #FFC86E",
+          backgroundColor: "#FFC86E",
+          borderRadius: "35px",
+          padding: "10px 25px 10px 25px",
+          fontSize: "16",
+          fontWeight: "500",
+          cursor: "pointer",
+          textDecoration: "none",
+        }}
       >
-        <img
-          alt="Profile "
-          style={{
-            height: "40px",
-            width: "40px",
-            borderRadius: "50%",
-          }}
-          src="https://placehold.co/40x40"
-        />
-      </div>
+        Log In
+      </NavLink>
     </div>
   );
 };

@@ -1,7 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom"; // Use useNavigate instead of useHistory
 import "./VietnamRecipes.css"; // Import styles
 
 const VietnamRecipes = () => {
+  const navigate = useNavigate(); // React Router hook to navigate
+
   const recipes = [
     {
       name: "Bun Bo",
@@ -55,6 +58,11 @@ const VietnamRecipes = () => {
     },
   ];
 
+  const handleRecipeClick = (recipeName) => {
+    // Redirect to the CookingMethod page for the clicked recipe
+    navigate(`/CookingMethod/${recipeName}`);
+  };
+
   return (
     <div className="vietnam-recipes-container">
       <h1
@@ -89,7 +97,11 @@ const VietnamRecipes = () => {
       >
         <div className="recipes-list">
           {recipes.map((recipe, index) => (
-            <div className="recipe-card" key={index}>
+            <div
+              className="recipe-card"
+              key={index}
+              onClick={() => handleRecipeClick(recipe.name)}
+            >
               <div className="recipe-image-container">
                 <img
                   src={recipe.image}

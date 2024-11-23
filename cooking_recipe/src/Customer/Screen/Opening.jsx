@@ -1,10 +1,21 @@
 import React from "react";
+import { useNavigate } from "react-router-dom"; // Thay useHistory bằng useNavigate
 import "./Opening.css"; // Import CSS
 import openingBg from "../../assets/images/opening-bg.png"; // Import hình nền
 import logo from "../../assets/images/logo.png"; // Import logo
 import Button from "../../Component/Button/Button"; // Import component Button
 
 const Opening = () => {
+  const navigate = useNavigate(); // Khởi tạo useNavigate
+
+  const handleLogin = () => {
+    navigate("/Login"); // Chuyển hướng tới trang Login
+  };
+
+  const handleSignUp = () => {
+    navigate("/Signup"); // Chuyển hướng tới trang Sign Up
+  };
+
   return (
     <div className="opening-page">
       {/* Container */}
@@ -17,8 +28,18 @@ const Opening = () => {
             <span className="cookcook-text">CookCook</span>
           </div>
           <div className="buttons">
-            <Button label="Log In" style={{ width: 359, height: 44 }} />
-            <Button label="Sign Up" style={{ width: 359, height: 44 }} />
+            <Button
+              label="Log In"
+              style={{ width: 359, height: 44 }}
+              onClick={handleLogin}
+            />{" "}
+            {/* Thêm onClick */}
+            <Button
+              label="Sign Up"
+              style={{ width: 359, height: 44 }}
+              onClick={handleSignUp}
+            />{" "}
+            {/* Thêm onClick */}
           </div>
         </div>
 

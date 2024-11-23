@@ -1,10 +1,17 @@
 import React from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import "./Login.css"; // Import CSS
 import openingBg from "../../assets/images/opening-bg.png"; // Import hình nền
 import logo from "../../assets/images/logo.png"; // Import logo
 import Button from "../../Component/Button/Button"; // Import component Button
 
 const Login = () => {
+  const navigate = useNavigate(); // Khởi tạo useNavigate
+
+  const handleSignUp = () => {
+    navigate("/Signup"); // Chuyển hướng tới trang Sign Up
+  };
+
   return (
     <div className="login-page">
       {/* Container */}
@@ -45,6 +52,18 @@ const Login = () => {
           {/* Log In Button */}
           <div className="buttons">
             <Button label="Log In" style={{ width: 359, height: 44 }} />
+          </div>
+
+          {/* Sign Up Link */}
+          <div className="sign-up-prompt" style={{ margin: "10px 0 0 10px" }}>
+            <span>Don't have an account? </span>
+            <span
+              className="sign-up-link"
+              onClick={handleSignUp} // Thêm onClick để chuyển hướng
+              style={{ color: "#FFC86E", cursor: "pointer" }}
+            >
+              Sign Up
+            </span>
           </div>
         </div>
 

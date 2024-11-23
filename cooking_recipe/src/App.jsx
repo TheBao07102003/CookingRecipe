@@ -1,9 +1,8 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 
 import Home from "./Customer/Home/Home";
 import OurStory from "./Customer/Our Story/Ourstory";
-
 import Opening from "./Customer/Screen/Opening";
 import Login from "./Customer/Screen/Login";
 import Signup from "./Customer/Screen/Signup";
@@ -25,15 +24,25 @@ import SteamingRecipes from "./Customer/Recipes/SteamingRecipes";
 
 import Navbar from "./Component/Navbar";
 import News from "./Customer/News/News";
+import Wishlist from "./Customer/Wishlist/Wishlist";
+import CookingMethod from "./Customer/Recipes/CookingMethod/CookingMethod";
 
 function App() {
+  const location = useLocation(); // Lấy đường dẫn hiện tại
+
+  // Kiểm tra xem đường dẫn hiện tại có phải là /Login hoặc /Signup không
+  const hideNavbar =
+    location.pathname === "/Login" || location.pathname === "/Signup";
+
   return (
     <div>
-      <Navbar />
+      {/* Nếu không phải là /Login hoặc /Signup thì hiển thị Navbar */}
+      {!hideNavbar && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/OurStory" element={<OurStory />} />
         <Route path="/News" element={<News />} />
+        <Route path="/Wishlist" element={<Wishlist />} />
 
         {/* RECIPES PAGE */}
         <Route path="/Recipes" element={<Recipes />} />
@@ -50,12 +59,13 @@ function App() {
         <Route path="/Recipes/roasting" element={<RoastingRecipes />} />
         <Route path="/Recipes/steaming" element={<SteamingRecipes />} />
 
+        {/* CookingMethod */}
+        <Route path="/CookingMethod/:recipeName" element={<CookingMethod />} />
         {/* Opening */}
         <Route path="/Opening" element={<Opening />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Signup" element={<Signup />} />
         <Route path="/Logout" element={<Logout />} />
-
       </Routes>
     </div>
   );
