@@ -64,7 +64,10 @@ const VietnamRecipes = () => {
           filter: "blur(4px)",
           padding: "150px",
         }}
-      ></h1>
+        aria-label="Vietnam Recipes Background"
+      >
+        {/* Add accessible fallback text */}
+      </h1>
       <p
         style={{
           position: "absolute",
@@ -84,7 +87,6 @@ const VietnamRecipes = () => {
           marginTop: "100px",
         }}
       >
-        {" "}
         <div className="recipes-list">
           {recipes.map((recipe, index) => (
             <div className="recipe-card" key={index}>

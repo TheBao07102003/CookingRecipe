@@ -2,7 +2,18 @@ import React from "react";
 
 const Dessert = ({ imageSrc, title }) => {
   return (
-    <div className="container" style={{ textAlign: "center" }}>
+    <div
+      className="card"
+      style={{
+        textAlign: "center",
+        padding: "20px",
+        border: "none", // No border
+        borderRadius: "8px",
+        maxWidth: "250px",
+        margin: "0 auto",
+        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", // Subtle shadow for depth
+      }}
+    >
       <div
         className="image-container"
         style={{
@@ -22,8 +33,8 @@ const Dessert = ({ imageSrc, title }) => {
       <div
         className="title"
         style={{
-          marginTop: "20px",
-          fontSize: "20px",
+          marginTop: "15px",
+          fontSize: "18px",
           color: "#6b4f4f",
           fontWeight: "500",
         }}
