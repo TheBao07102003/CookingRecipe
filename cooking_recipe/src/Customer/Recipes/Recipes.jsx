@@ -8,27 +8,38 @@ const Recipes = () => {
   const handleFilterClick = (filter) => {
     if (filter === "Vietnam") {
       navigate("/Recipes/vietnam");
-    }if (filter === "USA") {
+    }
+    if (filter === "USA") {
       navigate("/Recipes/usa");
-    }if (filter === "Japan") {
+    }
+    if (filter === "Japan") {
       navigate("/Recipes/japan");
-    }if (filter === "Korea") {
+    }
+    if (filter === "Korea") {
       navigate("/Recipes/korea");
-    }if (filter === "No Dairy") {
+    }
+    if (filter === "No Dairy") {
       navigate("/Recipes/nodairy");
-    }if (filter === "Sugar Free") {
+    }
+    if (filter === "Sugar Free") {
       navigate("/Recipes/sugarfree");
-    }if (filter === "Gluten Free") {
+    }
+    if (filter === "Gluten Free") {
       navigate("/Recipes/glutenfree");
-    }if (filter === "Vegan") {
+    }
+    if (filter === "Vegan") {
       navigate("/Recipes/vegan");
-    }if (filter === "Boiling") {
+    }
+    if (filter === "Boiling") {
       navigate("/Recipes/boiling");
-    }if (filter === "Stir-Frying") {
+    }
+    if (filter === "Stir-Frying") {
       navigate("/Recipes/stirfrying");
-    }if (filter === "Roasting") {
+    }
+    if (filter === "Roasting") {
       navigate("/Recipes/roasting");
-    }if (filter === "Steaming") {
+    }
+    if (filter === "Steaming") {
       navigate("/Recipes/steaming");
     }
   };

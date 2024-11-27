@@ -64,7 +64,7 @@ function Wishlist() {
       style={{
         backgroundImage: "url(/images/backgroundWishlist.png)",
         height: "auto",
-        width: "1479px",
+        width: "97.35%",
         backgroundSize: "cover",
         backgroundPosition: "center",
         position: "absolute",
@@ -92,7 +92,7 @@ function Wishlist() {
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(4, 1fr)", // 4 cột cố định
-          gap: "10px", // Khoảng cách giữa các card
+          gap: "15px", // Khoảng cách giữa các card
           justifyItems: "center",
         }}
       >
@@ -110,8 +110,8 @@ function Wishlist() {
           >
             <div
               style={{
-                width: "200px",
-                height: "200px",
+                width: "180px",
+                height: "180px",
                 borderRadius: "50%",
                 overflow: "hidden",
                 display: "flex",
