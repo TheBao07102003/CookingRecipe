@@ -1,4 +1,5 @@
 import React from "react";
+import ourstory from "../../assets/images/ourstory.png";
 
 const OurStory = () => {
   return (
@@ -80,7 +81,7 @@ const OurStory = () => {
           }}
         >
           <img
-            src="https://s3-alpha-sig.figma.com/img/31a6/24c4/51e10218b20d7fa4a19ac166848433c9?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=mlgZXLSkN5ZD0wV9eOalFav0eK~Ddw3g2Jhtk5kKG3SX7dX6NP41XCFZfbpuMejggEgQFxIcxmi4t5JLwiqaGggvaqx5U6jsS~hiXqWV4RNqosD5aTicPaCu7Sbjx3eO3ePdpVHbsY6vjXrcLqBQbX0HlaCVa2J6J56Esi7XHYMpS7szXed5LUMLjm0nNNX70Z75o-6518Z2cPJjl6sLmWkJTdTxsFTWmWhLHj4GRepX7iXg9nvyk77crs08fClTuLbA8unZL~bfnDGPwUXcAS7reeP5R506jhhHIvJNfmVfRSFZszBxyV8LWwlRQ0IfXd9Vrlmlp1NbGMsTfenTQA__"
+            src={ourstory}
             alt="A delicious breakfast spread with fried eggs, croissant sandwich, salad, and various drinks."
             style={{
               width: "100%",
