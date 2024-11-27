@@ -64,11 +64,10 @@ function Wishlist() {
       style={{
         backgroundImage: "url(/images/backgroundWishlist.png)",
         height: "auto",
-        width: "97.35%",
+        width: "100%",
         backgroundSize: "cover",
         backgroundPosition: "center",
         position: "absolute",
-        padding: "20px",
         overflow: "hidden",
       }}
     >
@@ -78,7 +77,7 @@ function Wishlist() {
           fontSize: 38,
           border: "1px solid #593329",
           width: "50%",
-          margin: "auto",
+          margin: "20px auto 20px auto",
           textAlign: "center",
           marginBottom: "20px",
           background: "#593329",
