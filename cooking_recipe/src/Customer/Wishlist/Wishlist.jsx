@@ -65,6 +65,7 @@ function Wishlist() {
         backgroundImage: "url(/images/backgroundWishlist.png)",
         height: "auto",
         width: "100%",
+        height: "100vh",
         backgroundSize: "cover",
         backgroundPosition: "center",
         position: "absolute",
