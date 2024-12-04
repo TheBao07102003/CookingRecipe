@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios"; // Import axios for making HTTP requests
 import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom for routing
-import "./JapanRecipes.css"; // Import styles for Japan
+import "./ChinaRecipes.css"; // Import styles for China recipes
 
-const JapanRecipes = () => {
+const ChinaRecipes = () => {
   const [recipes, setRecipes] = useState([]); // State to hold recipes data
   const navigate = useNavigate(); // Hook for navigation
 
   useEffect(() => {
-    // Fetch data from the backend for Japan recipes
+    // Fetch data from the backend for China recipes
     axios
-      .get("/api/food/country/japan") // Adjust the API endpoint for Japan
+      .get("/api/food/country/china") // Adjust the API endpoint for China
       .then((response) => {
         setRecipes(response.data); // Update state with the received data
       })
@@ -25,12 +25,12 @@ const JapanRecipes = () => {
   };
 
   return (
-    <div className="japan-recipes-container">
+    <div className="china-recipes-container">
       {/* Background image for the title */}
       <h1
         style={{
           backgroundImage:
-            "url(https://i0.wp.com/www.touristjapan.com/wp-content/uploads/2023/04/fujiyoshida-view-scaled-e1680427764989.jpg?resize=2000%2C800&ssl=1)", // Japan background image
+            "url(https://www.shutterstock.com/image-photo/china-town-bangkok-thailand-april-600nw-2470100271.jpg)", // China background image
           filter: "blur(4px)",
           padding: "150px",
         }}
@@ -42,7 +42,7 @@ const JapanRecipes = () => {
         style={{
           position: "absolute",
           top: "160px",
-          left: "48%",
+          left: "46%",
           fontWeight: "600",
           fontSize: "60px",
           color: "white",
@@ -50,7 +50,7 @@ const JapanRecipes = () => {
           justifyContent: "center",
         }}
       >
-        Japan
+        China
       </p>
 
       <div style={{ marginTop: "100px" }}>
@@ -95,4 +95,4 @@ const JapanRecipes = () => {
   );
 };
 
-export default JapanRecipes;
+export default ChinaRecipes;

@@ -1,89 +1,66 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios"; // Import axios for making HTTP requests
+import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom for routing
 import "./StirFryingRecipes.css"; // Import styles
 
 const StirFryingRecipes = () => {
-  const recipes = [
-    {
-      name: "Bun Bo",
-      description:
-        "A spicy beef noodle soup from Hue, featuring thick rice noodles, beef, and aromatic herbs, often garnished with lime and fresh vegetables.",
-      level: "Medium",
-      time: "2-3 hours",
-      ingredients: 9,
-      image: "/images/bun-bo.png", // Replace with actual path
-      icon: "/images/dish-icon.svg", // Replace with the SVG icon path
-    },
-    {
-      name: "Pho",
-      description:
-        "A fragrant noodle soup made with beef or chicken, herbs, and rice noodles, typically served with lime and fresh herbs.",
-      level: "Medium",
-      time: "2-3 hours",
-      ingredients: 8,
-      image: "/images/pho.png", // Replace with actual path
-      icon: "/images/dish-icon.svg",
-    },
-    {
-      name: "Spring Rolls",
-      description:
-        "Fresh spring rolls filled with shrimp, herbs, rice vermicelli, and lettuce, served with a peanut or hoisin dipping sauce.",
-      level: "Easy",
-      time: "30 minutes",
-      ingredients: 6,
-      image: "/images/spring-rolls.png", // Replace with actual path
-      icon: "/images/dish-icon.svg",
-    },
-    {
-      name: "Banh Canh Cua",
-      description:
-        "Thick tapioca noodles in a rich broth, typically served with shrimp, crab, or pork.",
-      level: "Medium",
-      time: "1 hour",
-      ingredients: 3,
-      image: "/images/banh-canh-cua.png", // Replace with actual path
-      icon: "/images/dish-icon.svg",
-    },
-    {
-      name: "Fry Spring Rolls",
-      description:
-        "Vietnamese fried spring rolls filled with ground pork, mushrooms, and vegetables, often served with lettuce for wrapping.",
-      level: "Easy",
-      time: "30 minutes",
-      ingredients: 5,
-      image: "/images/fry-spring-rolls.png", // Replace with actual path
-      icon: "/images/dish-icon.svg",
-    },
-  ];
+  const [recipes, setRecipes] = useState([]);
+  const navigate = useNavigate(); // Hook for navigation
+
+  useEffect(() => {
+    // Fetch data for stir-frying recipes
+    axios
+      .get("/api/food/method/stir-frying") // Adjust the API endpoint for stir-frying recipes
+      .then((response) => {
+        setRecipes(response.data); // Update state with the received data
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the data!", error);
+      });
+  }, []); // Empty array ensures this effect runs only once after initial render
+
+  // Handle recipe card click event
+  const handleRecipeClick = (foodId) => {
+    navigate(`/cookingmethod/${foodId}`); // Navigate to the cookingmethod route with the recipe's foodId
+  };
 
   return (
-    <div className="stirfrying-recipes-container">
+    <div className="stir-frying-recipes-container">
+      {/* Background image for the title */}
       <h1
         style={{
           backgroundImage:
-            "url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnJCNPG2YODLhN_wNL3NYjw6Mn5nRk_AvxEA&s)",
-            filter: 'blur(4px)',
+            "url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnJCNPG2YODLhN_wNL3NYjw6Mn5nRk_AvxEA&s)", // Adjust the background image URL if needed
+          filter: "blur(4px)",
           padding: "150px",
         }}
-      > 
+      >
+        .
       </h1>
-      <p style={{
-        position: 'absolute',
-        top: '160px',
-        left: '46%',
-        fontWeight: '600',
-        fontSize: '60px',
-        color: 'white',
-        textAlign: 'center',
-        justifyContent: 'center',
-      }}>Stir-Frying</p>
-      <div
-      style={{
-        marginTop: '100px',
-      }}>
-        {" "}
+      {/* Title centered on top */}
+      <p
+        style={{
+          position: "absolute",
+          top: "160px",
+          left: "35%",
+          fontWeight: "600",
+          fontSize: "60px",
+          color: "white",
+          textAlign: "center",
+          justifyContent: "center",
+        }}
+      >
+        Stir-Frying Recipes
+      </p>
+
+      <div style={{ marginTop: "100px" }}>
         <div className="recipes-list">
-          {recipes.map((recipe, index) => (
-            <div className="recipe-card" key={index}>
+          {recipes.map((recipe) => (
+            <div
+              className="recipe-card"
+              key={recipe.foodId} // Use foodId as the key
+              onClick={() => handleRecipeClick(recipe.foodId)} // Call handleRecipeClick on card click
+            >
               <div className="recipe-image-container">
                 <img
                   src={recipe.image}
@@ -101,10 +78,10 @@ const StirFryingRecipes = () => {
                   <strong>Time:</strong> {recipe.time}
                 </p>
                 <p>
-                  <strong>Ingredients to Prepare:</strong> {recipe.ingredients}
+                  <strong>Ingredients:</strong> {recipe.ingredient || "N/A"}
                 </p>
                 <img
-                  src={recipe.icon}
+                  src="/images/dish-icon.svg"
                   alt="Dish Icon"
                   className="recipe-icon"
                 />

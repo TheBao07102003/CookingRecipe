@@ -70,7 +70,7 @@ const News = () => {
             <img
               alt="A plate of plant-based seafood with various garnishes"
               height="200"
-              src="https://s3-alpha-sig.figma.com/img/8c7c/5226/b63c00063525e0ab63d14b3a7519b4a8?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=cv~KQXEUcbp7SgDZWtxTUxId6bCruE4kTWkiNfW1tEBbrxppxH1n-DXOeVMN5xyO4FcXw9a5DOEecVJPyw7EJHX8yshHUdCuQ52NsKIsTGROQRHjy12YaFO6-Oq51ENuoGYkpB-R46TDDiIHK3m-CAYow6BJkq-NtMdOy9QhhBwbONI6cy-K4AClPpadRsWUcfksPPEudit7ajcyGiE0~WjFSfiYgukJwCnLjpLF4C9xyoZjQ-1z~pE03JdXJsFsHrCqQpQPyxjMjKZqE1FntjUqd7GsGIAVfSSfnvwK9-G8FRctSwa~dL1Yt1q1rYOArvxQZfhIyDMEgP6sw8XqNQ__"
+              src="/images/news1.png"
               width="250"
               style={{ marginRight: "10px" }}
             />
@@ -110,7 +110,7 @@ const News = () => {
             <img
               alt="A person preparing sourdough bread at home"
               height="200"
-              src="https://s3-alpha-sig.figma.com/img/3db0/da1e/c61c441e049df3c3d5f1b54af85cb2ea?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Xcb0P-abxA0X4D-~msEyxUHYbh2tR6b3XC4iba2GZ4ahB8VTXHXJW~yKcXKiKxBQU0qdm9oua1PxSfa7~LFqp9ekbPv2I3iJT-1Sl0cDCEmq9jZHm~VVYLzw7qJCod2bhxAOUmMfmbuMNrwmhg6gRKvg93JXjfjKfch4xjoT8u6-V1QcmwoV9SRDv633n7-bdS~DdO93BXzoUyJlJCu4~A4A6Gu6hS3NxUuO6PG9vy-5HeG3Xq4p0F2FtDUGYBcM1gxsif5-L0q-c0d3ukUDnr6HwZAuyMn4U06j~xlkqR0989f4r6hfmCKvPGZ4AK2QLYY7S-sEP2aEy56HJtblhw__"
+              src="/images/news2.png"
               width="250"
               style={{ marginRight: "10px" }}
             />
@@ -151,7 +151,7 @@ const News = () => {
             <img
               alt="Various jars of fermented foods and spices"
               height="200"
-              src="https://s3-alpha-sig.figma.com/img/5a66/aba3/24be5a1d87cf2123d2f2f25c5258eb39?Expires=1732492800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=U1AgV-FvgD1A0IvYHkiiCi2HJ~-iHPT8v5R8RQnttwtUR0PGNdBFWA8JR3~Q6sPjSEyU-OAPzOMbg0h0rD2Bzhge9l8KmRRKteIGSA~JzEXPBLRiKGSu0nZ5lEf6zXtpKtXpjJHM94aESqxjeVZCvmA6GYdVZ5d~0AUT1N00L3P34S6lYlJw4YFUgzx5y-hITPv6TdJo8bRXlvUElQUx1AuN-CHQbGiU-Xm4W3xT7sakxFjzZkHoUbmXpaVOzVPFJfI3WDQ~bOIaWn6z2gJiooFYsb92P1BB-y61UvlWXZvgCOsYEKoj9n6xiMyoIYwzfoJZ8pLnK4lvUnpch43ucA__"
+              src="/images/news3.png"
               width="250"
               style={{ marginRight: "10px" }}
             />

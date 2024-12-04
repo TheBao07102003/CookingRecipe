@@ -12,7 +12,8 @@ import Recipes from "./Customer/Recipes/Recipes";
 import VietnamRecipes from "./Customer/Recipes/VietnamRecipes";
 import USARecipes from "./Customer/Recipes/USARecipes";
 import JapanRecipes from "./Customer/Recipes/JapanRecipes";
-import KoreaRecipes from "./Customer/Recipes/KoreaRecipes";
+
+import ChinaRecipes from "./Customer/Recipes/ChinaRecipes";
 import NoDairyRecipes from "./Customer/Recipes/NoDairyRecipes";
 import SugarFreeRecipes from "./Customer/Recipes/SugarFreeRecipes";
 import GlutenFreeRecipes from "./Customer/Recipes/GlutenFreeRecipes";
@@ -49,7 +50,7 @@ function App() {
         <Route path="/Recipes/vietnam" element={<VietnamRecipes />} />
         <Route path="/Recipes/usa" element={<USARecipes />} />
         <Route path="/Recipes/japan" element={<JapanRecipes />} />
-        <Route path="/Recipes/korea" element={<KoreaRecipes />} />
+        <Route path="/Recipes/china" element={<ChinaRecipes />} />
         <Route path="/Recipes/nodairy" element={<NoDairyRecipes />} />
         <Route path="/Recipes/sugarfree" element={<SugarFreeRecipes />} />
         <Route path="/Recipes/glutenfree" element={<GlutenFreeRecipes />} />
@@ -60,7 +61,7 @@ function App() {
         <Route path="/Recipes/steaming" element={<SteamingRecipes />} />
 
         {/* CookingMethod */}
-        <Route path="/CookingMethod/:recipeName" element={<CookingMethod />} />
+        <Route path="/CookingMethod/:recipeId" element={<CookingMethod />} />
         {/* Opening */}
         <Route path="/Opening" element={<Opening />} />
         <Route path="/Login" element={<Login />} />

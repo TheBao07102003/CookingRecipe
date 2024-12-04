@@ -1,71 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 function Wishlist() {
-  const [cards, setCards] = useState([
-    {
-      id: 1,
-      title: "Bún Bò",
-      image: "/images/bun-bo.png",
-    },
-    {
-      id: 2,
-      title: "Phở",
-      image: "/images/pho.png",
-    },
-    {
-      id: 3,
-      title: "Mì Quảng",
-      image:
-        "https://afamilycdn.com/150157425591193600/2022/10/7/anh-kaitulsa-16651052232491763466659-1665131308404-16651313085701494418891.jpg",
-    },
-    {
-      id: 4,
-      title: "Bánh Canh",
-      image: "/images/banh-canh-cua.png",
-    },
-    {
-      id: 5,
-      title: "Hủ Tiếu",
-      image:
-        "https://cdn.tgdd.vn/2020/07/CookProductThumb/Untitled-1-620x620-181.jpg",
-    },
-    {
-      id: 6,
-      title: "Bánh Xèo",
-      image:
-        "https://ik.imagekit.io/tvlk/blog/2022/08/banh-xeo-dac-san-o-dau-3.jpeg?tr=c-at_max?tr=c-at_max",
-    },
-    {
-      id: 7,
-      title: "Bánh Cuốn",
-      image:
-        "https://cdn.buffetposeidon.com/app/media/Kham-pha-am-thuc/11.2023/241123-banh-cuon-buffet-poseidon-4.jpg",
-    },
-    {
-      id: 8,
-      title: "Bánh Mì",
-      image: "https://cdn.tgdd.vn/2020/10/CookProduct/0.-1200x674.jpg",
-    },
-    {
-      id: 9,
-      title: "Bún Thịt Nướng",
-      image:
-        "https://static.vinwonders.com/production/bun-thit-nuong-ha-noi-1.jpg",
-    },
-  ]);
+  const [cards, setCards] = useState([]); // Start with an empty list of cards
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Hàm xóa card
-  const handleDelete = (id) => {
-    setCards(cards.filter((card) => card.id !== id)); // Lọc và loại bỏ card theo id
+  useEffect(() => {
+    // Fetch wishlist for fake userId (1)
+    const fetchWishlist = async () => {
+      try {
+        const response = await axios.get("/api/wishlist/1"); // Replace with actual API URL
+        setCards(response.data); // Assuming the API returns an array of food items
+      } catch (err) {
+        setError("Failed to load wishlist");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchWishlist();
+  }, []);
+
+  // Handle deleting the food item
+  const handleDelete = (foodId) => {
+    setCards((prevCards) => prevCards.filter((card) => card.foodId !== foodId)); // Filter out the card by foodId
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div
       style={{
         backgroundImage: "url(/images/backgroundWishlist.png)",
-        height: "auto",
         width: "100%",
-        height: "100vh",
+        height: "auto",
         backgroundSize: "cover",
         backgroundPosition: "center",
         position: "absolute",
@@ -91,14 +66,14 @@ function Wishlist() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)", // 4 cột cố định
-          gap: "15px", // Khoảng cách giữa các card
+          gridTemplateColumns: "repeat(4, 1fr)", // 4 columns
+          gap: "15px", // Space between cards
           justifyItems: "center",
         }}
       >
         {cards.map((card) => (
           <div
-            key={card.id}
+            key={card.foodId} // Use foodId as unique identifier
             style={{
               display: "flex",
               flexDirection: "column",
@@ -122,8 +97,8 @@ function Wishlist() {
               }}
             >
               <img
-                src={card.image}
-                alt={card.title}
+                src={card.image} // Assuming 'image' is a property from your API
+                alt={card.name} // Assuming 'name' is a property from your API
                 style={{
                   width: "100%",
                   height: "100%",
@@ -140,10 +115,10 @@ function Wishlist() {
                 marginTop: "10px",
               }}
             >
-              {card.title}
+              {card.name} {/* Display food name */}
             </p>
             <button
-              onClick={() => handleDelete(card.id)}
+              onClick={() => handleDelete(card.foodId)} // Pass the correct foodId to handleDelete
               style={{
                 position: "absolute",
                 top: "5px",

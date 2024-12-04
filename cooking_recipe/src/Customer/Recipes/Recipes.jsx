@@ -15,8 +15,8 @@ const Recipes = () => {
     if (filter === "Japan") {
       navigate("/Recipes/japan");
     }
-    if (filter === "Korea") {
-      navigate("/Recipes/korea");
+    if (filter === "China") {
+      navigate("/Recipes/china");
     }
     if (filter === "No Dairy") {
       navigate("/Recipes/nodairy");
@@ -52,7 +52,7 @@ const Recipes = () => {
       <div className="recipes-section">
         <h2>Country</h2>
         <div className="recipes-options">
-          {["Vietnam", "USA", "Japan", "Korea"].map((country) => (
+          {["Vietnam", "USA", "Japan", "China"].map((country) => (
             <div
               key={country}
               className="recipe-option"

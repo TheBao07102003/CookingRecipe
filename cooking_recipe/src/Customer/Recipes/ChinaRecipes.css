@@ -1,16 +1,16 @@
-.japan-recipes-container {
+.korea-recipes-container {
   padding: 20px;
   background-color: #f9f9f9;
 }
 
-.japan-recipes-container h1 {
+.korea-recipes-container h1 {
   text-align: center;
   color: #a52a2a;
   font-size: 36px;
   margin-bottom: 10px;
 }
 
-.japan-recipes-container p {
+.korea-recipes-container p {
   text-align: left;
   font-size: 16px;
   color: #555;
@@ -37,26 +37,28 @@
 }
 
 .recipe-image-container {
-  width: 300px; /* or a fixed width, e.g., 300px */
-  height: 300px; /* Fixed height */
-  display: flex;
-  justify-content: center; /* Centering the image */
-  align-items: center; /* Centering the image */
-  margin: 50px 0;
+  position: relative;
 }
 
-/* Enforce image size */
 .recipe-image {
-  width: 100%; /* Make the image width 100% of its parent container */
-  height: 100%; /* Make the image height 100% of its parent container */
-  border-radius: 50%; /* Optional: Adds rounded corners */
+  width: 80%;
+  height: 100%;
+  object-fit: none;
+  transform: translate(14%, -5%);
 }
 
 .recipe-name {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0);
+  color: #593329;
+  padding: 5px 10px;
+  border-radius: 4px;
   font-size: 18px;
   font-weight: bold;
-  color: #593329;
-  margin: 50px 0 0 25px; /* Add space around the name */
+  top: 85%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
 }
 
 .recipe-info {
