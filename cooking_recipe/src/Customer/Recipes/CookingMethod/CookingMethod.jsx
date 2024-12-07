@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import AddTo from "../../../assets/images/AddToWishlist.jpg";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2"; // Import SweetAlert2
 
 function CookingMethod() {
   const { recipeId } = useParams(); // Lấy ID từ URL
@@ -73,7 +74,7 @@ function CookingMethod() {
         const response = await axios.post(
           "/api/wishlist",
           {
-            userId: 1, // Example: Hardcoded userId
+            userId: 2, // Example: Hardcoded userId
             foodId: methodData.foodId,
           },
           {
@@ -84,12 +85,29 @@ function CookingMethod() {
         );
 
         if (response.status === 201) {
-          alert("Added to wishlist!");
+          console.log("Success: Added to wishlist!");
+          Swal.fire({
+            icon: "success",
+            title: "Success!",
+            text: "Added to wishlist!",
+            customClass: {
+              icon: "rotate-y",
+            },
+            confirmButtonText: "OK",
+          });
           navigate("/Wishlist");
         }
       } catch (error) {
         console.error("Error adding to wishlist:", error);
-        alert("Failed to add to wishlist.");
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Failed to add to wishlist.",
+          customClass: {
+            icon: "rotate-y",
+          },
+          confirmButtonText: "Try Again",
+        });
       }
     }
   };
@@ -100,7 +118,7 @@ function CookingMethod() {
         description: newComment,
         date: new Date().toISOString().split("T")[0], // Format as YYYY-MM-DD
         foodId: recipeId,
-        userId: 1, // Ví dụ: Hardcoded userId cho bây giờ
+        userId: 2, // Ví dụ: Hardcoded userId cho bây giờ
       };
 
       setComments((prevComments) => [...prevComments, newCommentData]);
@@ -117,10 +135,27 @@ function CookingMethod() {
                 : comment
             )
           );
+          Swal.fire({
+            icon: "success",
+            title: "Success!",
+            text: "Comment added successfully.",
+            customClass: {
+              icon: "rotate-y",
+            },
+            confirmButtonText: "OK",
+          });
         }
       } catch (error) {
         console.error("Error adding comment:", error);
-        alert("Failed to add comment.");
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Failed to add comment.",
+          customClass: {
+            icon: "rotate-y",
+          },
+          confirmButtonText: "Try Again",
+        });
       }
     }
   };
@@ -136,7 +171,6 @@ function CookingMethod() {
   return (
     <div
       style={{
-        overflowY: "scroll",
         height: "90vh",
         scrollSnapType: "y mandatory",
       }}
@@ -147,7 +181,7 @@ function CookingMethod() {
           padding: "20px",
           backgroundColor: "rgba(255, 255, 255, 0.8)",
           backgroundImage: "url(/images/backgroundImgCookingMethod.png)",
-          height: "90vh",
+          height: "100vh",
         }}
       >
         <div style={{ display: "flex", justifyContent: "space-between" }}>

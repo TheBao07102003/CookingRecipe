@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({ onProfileClick }) => {
   return (
     <div
       style={{
@@ -176,7 +176,6 @@ const Navbar = () => {
       >
         CookCook
       </div>
-
       {/* Navigation Links */}
       <div
         style={{ display: "flex", alignItems: "center", marginLeft: "300px" }}
@@ -268,7 +267,6 @@ const Navbar = () => {
           </svg>
         </NavLink>
       </div>
-
       <NavLink
         to={"/Login"}
         style={{
@@ -286,6 +284,13 @@ const Navbar = () => {
       >
         Log In
       </NavLink>
+
+      <div
+        onClick={onProfileClick}
+        style={{ cursor: "pointer", marginLeft: "auto" }}
+      >
+        <img src="/images/user2.png" alt="Profile" style={{ height: "30px" }} />
+      </div>
     </div>
   );
 };

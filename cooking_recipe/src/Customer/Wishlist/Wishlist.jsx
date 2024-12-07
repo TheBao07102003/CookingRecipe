@@ -3,15 +3,23 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 function Wishlist() {
+  const userId = 2; // Giả lập userId
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Fetch wishlist data from API
   useEffect(() => {
     const fetchWishlist = async () => {
+      if (!userId) {
+        setError("User ID is required");
+        setLoading(false);
+        return;
+      }
+
       try {
-        const response = await axios.get("/api/wishlist/1");
-        setCards(response.data);
+        const response = await axios.get(`/api/wishlist/${userId}`);
+        setCards(response.data); // Giả sử API trả về dữ liệu gồm wishlistId, foodId, name, và image
       } catch (err) {
         setError("Failed to load wishlist");
       } finally {
@@ -20,16 +28,44 @@ function Wishlist() {
     };
 
     fetchWishlist();
-  }, []);
+  }, [userId]);
 
-  const handleDelete = (foodId) => {
-    setCards((prevCards) => prevCards.filter((card) => card.foodId !== foodId));
+  // Handle item deletion by wishlistId
+  const handleDelete = async (wishlistId) => {
+    try {
+      // Gửi yêu cầu xóa món ăn theo wishlistId và userId
+      const response = await axios.delete(
+        `/api/wishlist/${userId}/${wishlistId}`
+      );
+
+      if (response.status === 200) {
+        // Cập nhật lại danh sách món ăn trong state sau khi xóa
+        setCards((prevCards) =>
+          prevCards.filter((card) => card.wishlistId !== wishlistId)
+        );
+      } else {
+        setError("Failed to delete item from wishlist");
+      }
+    } catch (err) {
+      // Kiểm tra lỗi chi tiết từ phản hồi API
+      if (err.response) {
+        setError(
+          `Error: ${err.response.data.message || err.response.statusText}`
+        );
+      } else if (err.request) {
+        setError("Error: No response from server");
+      } else {
+        setError(`Error: ${err.message}`);
+      }
+    }
   };
 
+  // Nếu đang tải dữ liệu
   if (loading) {
     return <div>Loading...</div>;
   }
 
+  // Nếu có lỗi khi tải dữ liệu
   if (error) {
     return <div>{error}</div>;
   }
@@ -72,7 +108,7 @@ function Wishlist() {
       >
         {cards.map((card) => (
           <div
-            key={card.foodId}
+            key={card.wishlistId} // Dùng wishlistId làm key
             style={{
               display: "flex",
               flexDirection: "column",
@@ -117,7 +153,7 @@ function Wishlist() {
               {card.name}
             </p>
             <button
-              onClick={() => handleDelete(card.foodId)}
+              onClick={() => handleDelete(card.wishlistId)} // Chỉ truyền wishlistId khi xóa
               style={{
                 position: "absolute",
                 top: "5px",
