@@ -3,69 +3,98 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 function Wishlist() {
-  const userId = 2; // Giả lập userId
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [userId, setUserId] = useState(null);
+
+  // Kiểm tra trạng thái đăng nhập và lấy userId
+  useEffect(() => {
+    const checkLoginStatus = () => {
+      const isUserLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+      if (isUserLoggedIn) {
+        const loggedInUserId = localStorage.getItem("userId");
+        setUserId(loggedInUserId);
+      }
+      setLoading(false);
+    };
+
+    checkLoginStatus();
+  }, []);
 
   // Fetch wishlist data from API
   useEffect(() => {
     const fetchWishlist = async () => {
       if (!userId) {
-        setError("User ID is required");
-        setLoading(false);
         return;
       }
 
       try {
         const response = await axios.get(`/api/wishlist/${userId}`);
-        setCards(response.data); // Giả sử API trả về dữ liệu gồm wishlistId, foodId, name, và image
+        setCards(response.data);
       } catch (err) {
         setError("Failed to load wishlist");
-      } finally {
-        setLoading(false);
       }
     };
 
-    fetchWishlist();
+    if (userId) {
+      fetchWishlist();
+    }
   }, [userId]);
 
-  // Handle item deletion by wishlistId
+  // Handle item deletion
   const handleDelete = async (wishlistId) => {
     try {
-      // Gửi yêu cầu xóa món ăn theo wishlistId và userId
       const response = await axios.delete(
         `/api/wishlist/${userId}/${wishlistId}`
       );
-
       if (response.status === 200) {
-        // Cập nhật lại danh sách món ăn trong state sau khi xóa
         setCards((prevCards) =>
           prevCards.filter((card) => card.wishlistId !== wishlistId)
         );
-      } else {
-        setError("Failed to delete item from wishlist");
       }
     } catch (err) {
-      // Kiểm tra lỗi chi tiết từ phản hồi API
-      if (err.response) {
-        setError(
-          `Error: ${err.response.data.message || err.response.statusText}`
-        );
-      } else if (err.request) {
-        setError("Error: No response from server");
-      } else {
-        setError(`Error: ${err.message}`);
-      }
+      console.error("Error deleting item:", err);
     }
   };
 
-  // Nếu đang tải dữ liệu
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  // Nếu có lỗi khi tải dữ liệu
+  if (!userId) {
+    return (
+      <div
+        style={{
+          backgroundImage: "url(/images/backgroundWishlist.png)",
+          width: "100%",
+          height: "100vh",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          position: "absolute",
+          overflow: "hidden",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{
+            color: "white",
+            fontSize: "32px",
+            padding: "20px 40px",
+            backgroundColor: "rgba(89, 51, 41, 0.9)",
+            borderRadius: "15px",
+            textAlign: "center",
+            fontWeight: "bold",
+          }}
+        >
+          You have to log in
+        </div>
+      </div>
+    );
+  }
+
   if (error) {
     return <div>{error}</div>;
   }
@@ -108,7 +137,7 @@ function Wishlist() {
       >
         {cards.map((card) => (
           <div
-            key={card.wishlistId} // Dùng wishlistId làm key
+            key={card.wishlistId}
             style={{
               display: "flex",
               flexDirection: "column",
@@ -153,7 +182,7 @@ function Wishlist() {
               {card.name}
             </p>
             <button
-              onClick={() => handleDelete(card.wishlistId)} // Chỉ truyền wishlistId khi xóa
+              onClick={() => handleDelete(card.wishlistId)}
               style={{
                 position: "absolute",
                 top: "5px",
@@ -170,7 +199,6 @@ function Wishlist() {
             >
               X
             </button>
-            {/* Tạo liên kết đến trang CookingMethod với foodId */}
             <Link
               to={`/cookingmethod/${card.foodId}`}
               style={{

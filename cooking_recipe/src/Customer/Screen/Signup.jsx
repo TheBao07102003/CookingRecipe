@@ -25,10 +25,10 @@ const SignUp = () => {
 
           {/* Email Field */}
           <div className="input-container">
-            <label className="input-label">Email</label>
+            <label className="input-label">Username</label>
             <input
               type="email"
-              placeholder="Enter your email"
+              placeholder="Enter username"
               className="input-field"
             />
           </div>

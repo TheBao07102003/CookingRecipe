@@ -1,13 +1,21 @@
-import React from "react";
-import {
-  FaUser,
-  FaIdBadge,
-  FaEnvelope,
-  FaLock,
-  FaChevronRight,
-} from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { FaUser, FaIdBadge, FaLock, FaChevronRight } from "react-icons/fa";
 
 const Profile = ({ onClose, onChangePasswordClick }) => {
+  const [userId, setUserId] = useState("");
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    // Get user data from localStorage
+    const userId = localStorage.getItem("userId");
+    const username = localStorage.getItem("username");
+
+    if (userId && username) {
+      setUserId(userId);
+      setUsername(username);
+    }
+  }, []);
+
   return (
     <div
       style={{
@@ -22,7 +30,7 @@ const Profile = ({ onClose, onChangePasswordClick }) => {
         justifyContent: "center",
         alignItems: "center",
       }}
-      onClick={onClose} // Đóng modal khi click ra ngoài
+      onClick={onClose}
     >
       <div
         className="profile-card"
@@ -34,26 +42,11 @@ const Profile = ({ onClose, onChangePasswordClick }) => {
           boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
           textAlign: "center",
         }}
-        onClick={(e) => e.stopPropagation()} // Ngăn chặn sự kiện click ra ngoài khi click vào modal
+        onClick={(e) => e.stopPropagation()}
       >
-        {/* Avatar */}
-        <img
-          alt="Profile Avatar"
-          src="https://storage.googleapis.com/a1aa/image/rTOHk2aB9JpecytxDeh8yJL6IIJL7CzXRBTfsfIG4evdb0DfE.jpg"
-          style={{
-            borderRadius: "50%",
-            width: "100px",
-            height: "100px",
-            marginBottom: "15px",
-          }}
-        />
-
-        {/* User Title */}
         <h3 style={{ fontWeight: "700", color: "#333", marginBottom: "20px" }}>
           USER PROFILE
         </h3>
-
-        {/* User Info */}
         <div
           className="info-item"
           style={{
@@ -64,17 +57,9 @@ const Profile = ({ onClose, onChangePasswordClick }) => {
           }}
         >
           <span>
-            <FaUser style={{ marginRight: "8px" }} />
-            Name
+            <FaUser style={{ marginRight: "8px" }} /> Username
           </span>
-          <span
-            style={{
-              fontWeight: "500",
-              color: "#333",
-            }}
-          >
-            Dinh Hoang Thao Nguyen
-          </span>
+          <span style={{ fontWeight: "500", color: "#333" }}>{username}</span>
         </div>
         <div
           className="info-item"
@@ -86,42 +71,10 @@ const Profile = ({ onClose, onChangePasswordClick }) => {
           }}
         >
           <span>
-            <FaIdBadge style={{ marginRight: "8px" }} />
-            ID
+            <FaIdBadge style={{ marginRight: "8px" }} /> ID
           </span>
-          <span
-            style={{
-              fontWeight: "500",
-              color: "#333",
-            }}
-          >
-            A0001
-          </span>
+          <span style={{ fontWeight: "500", color: "#333" }}>{userId}</span>
         </div>
-        <div
-          className="info-item"
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: "20px",
-          }}
-        >
-          <span>
-            <FaEnvelope style={{ marginRight: "8px" }} />
-            Email
-          </span>
-          <span
-            style={{
-              fontWeight: "500",
-              color: "#333",
-            }}
-          >
-            thaonguyen@gmail.com
-          </span>
-        </div>
-
-        {/* Privacy Section */}
         <h4
           style={{
             fontWeight: "700",
@@ -133,8 +86,6 @@ const Profile = ({ onClose, onChangePasswordClick }) => {
         >
           PRIVACY
         </h4>
-
-        {/* Change Password Button */}
         <button
           style={{
             backgroundColor: "transparent",
@@ -151,8 +102,7 @@ const Profile = ({ onClose, onChangePasswordClick }) => {
           onClick={onChangePasswordClick}
         >
           <span style={{ display: "flex", alignItems: "center" }}>
-            <FaLock style={{ marginRight: "8px" }} />
-            Change Password
+            <FaLock style={{ marginRight: "8px" }} /> Change Password
           </span>
           <FaChevronRight />
         </button>

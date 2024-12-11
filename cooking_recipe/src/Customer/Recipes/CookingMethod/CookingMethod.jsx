@@ -2,17 +2,35 @@ import React, { useState, useEffect } from "react";
 import AddTo from "../../../assets/images/AddToWishlist.jpg";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
-import Swal from "sweetalert2"; // Import SweetAlert2
+import Swal from "sweetalert2";
 
 function CookingMethod() {
-  const { recipeId } = useParams(); // Lấy ID từ URL
-  const [methodData, setMethodData] = useState(null);
+  const { recipeId } = useParams();
   const navigate = useNavigate();
-  const [steps, setSteps] = useState([]); // New state for steps
+  const [methodData, setMethodData] = useState(null);
+  const [steps, setSteps] = useState([]);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    const checkLoginStatus = () => {
+      const isUserLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+      if (isUserLoggedIn) {
+        const loggedInUserId = localStorage.getItem("userId");
+        setUserId(loggedInUserId);
+        setUsername(localStorage.getItem("username"));
+      } else {
+        setUserId(null);
+        setUsername("");
+      }
+    };
+
+    checkLoginStatus();
+  }, []);
 
   // Fetch cooking method data
   useEffect(() => {
@@ -24,11 +42,12 @@ function CookingMethod() {
       } catch (err) {
         setError(err);
         setLoading(false);
+        console.error("Error fetching cooking method:", err);
       }
     };
 
     fetchMethodData();
-  }, [recipeId]); // Only fetch when recipeId changes
+  }, [recipeId]);
 
   // Fetch comments
   useEffect(() => {
@@ -36,7 +55,7 @@ function CookingMethod() {
       try {
         const response = await axios.get(`/api/comment/food/${recipeId}`);
         if (response.data && response.data.length > 0) {
-          setComments(response.data);
+          setComments(response.data); // Dùng trực tiếp data từ API
         } else {
           setComments([]);
         }
@@ -49,7 +68,7 @@ function CookingMethod() {
     fetchComments();
   }, [recipeId]);
 
-  // Fetch step-by-step instructions
+  // Fetch steps
   useEffect(() => {
     const fetchSteps = async () => {
       try {
@@ -74,7 +93,7 @@ function CookingMethod() {
         const response = await axios.post(
           "/api/wishlist",
           {
-            userId: 2, // Example: Hardcoded userId
+            userId: userId,
             foodId: methodData.foodId,
           },
           {
@@ -85,7 +104,6 @@ function CookingMethod() {
         );
 
         if (response.status === 201) {
-          console.log("Success: Added to wishlist!");
           Swal.fire({
             icon: "success",
             title: "Success!",
@@ -116,25 +134,22 @@ function CookingMethod() {
     if (newComment.trim()) {
       const newCommentData = {
         description: newComment,
-        date: new Date().toISOString().split("T")[0], // Format as YYYY-MM-DD
-        foodId: recipeId,
-        userId: 2, // Ví dụ: Hardcoded userId cho bây giờ
+        date: new Date().toISOString().split("T")[0],
+        foodId: parseInt(recipeId),
+        userId: parseInt(userId),
+        userName: username,
       };
 
+      // Cập nhật UI trước
       setComments((prevComments) => [...prevComments, newCommentData]);
       setNewComment("");
 
+      // Sau đó gọi API để lưu vào database
       try {
         const response = await axios.post("/api/comment", newCommentData);
+        console.log("Response from server:", response);
+
         if (response.status === 201) {
-          const savedComment = response.data;
-          setComments((prevComments) =>
-            prevComments.map((comment) =>
-              comment.description === newCommentData.description
-                ? { ...comment, id: savedComment.id } // Giả sử API trả về `id`
-                : comment
-            )
-          );
           Swal.fire({
             icon: "success",
             title: "Success!",
@@ -146,7 +161,16 @@ function CookingMethod() {
           });
         }
       } catch (error) {
-        console.error("Error adding comment:", error);
+        // Nếu API call thất bại, loại bỏ comment đã thêm
+        setComments((prevComments) =>
+          prevComments.filter(
+            (comment) =>
+              comment.description !== newCommentData.description ||
+              comment.date !== newCommentData.date
+          )
+        );
+
+        console.error("Error details:", error.response || error);
         Swal.fire({
           icon: "error",
           title: "Error",
@@ -169,12 +193,8 @@ function CookingMethod() {
   }
 
   return (
-    <div
-      style={{
-        height: "90vh",
-        scrollSnapType: "y mandatory",
-      }}
-    >
+    <div style={{ height: "90vh", scrollSnapType: "y mandatory" }}>
+      {/* First section */}
       <div
         style={{
           scrollSnapAlign: "start",
@@ -193,113 +213,128 @@ function CookingMethod() {
               width: "30%",
             }}
           >
-            <img
-              alt={methodData.name}
-              height="400px"
-              src={methodData.image}
-              width="400px"
-              style={{ borderRadius: "50%" }}
-            />
-            <h1
-              style={{
-                fontSize: "2em",
-                margin: "10px 0",
-                color: "White",
-                textAlign: "center",
-              }}
-            >
-              {methodData.name}
-            </h1>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                marginTop: "20px",
-                color: "White",
-                flexDirection: "column",
-                padding: "35px 50px",
-                backgroundColor: "#593329",
-                borderRadius: "15px",
-              }}
-            >
-              <span>Rating: {methodData.rating}/5</span>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                marginTop: "50px",
-              }}
-            >
-              <img
-                src={AddTo}
-                alt="AddTo"
-                style={{ borderRadius: "40px", cursor: "pointer" }}
-                onClick={handleAddToWishlist}
-              />
-            </div>
-          </div>
-          <div style={{ width: "65%" }}>
-            <div
-              style={{
-                backgroundColor: "#fdf5e6",
-                padding: "20px",
-                borderRadius: "10px",
-                height: "200px",
-              }}
-            >
-              <h2
-                style={{
-                  fontSize: "1.5em",
-                  marginTop: "0",
-                  color: "#593329",
-                }}
-              >
-                {methodData.name} ({methodData.country} Cuisine)
-              </h2>
-              <p
-                style={{
-                  fontSize: "1.3em",
-                  lineHeight: "1.5",
-                  color: "#593329",
-                }}
-              >
-                {methodData.description}
-              </p>
-            </div>
-            <div
-              style={{
-                backgroundColor: "#fdf5e6",
-                padding: "20px",
-                borderRadius: "10px",
-                marginTop: "20px",
-                color: "#593329",
-                height: "auto",
-              }}
-            >
-              <h2 style={{ fontSize: "1.5em", marginTop: "0" }}>Ingredients</h2>
-              <ul style={{ listStyleType: "none", padding: "0" }}>
-                {methodData.ingredient.split(",").map((ingredient, index) => (
-                  <li
-                    key={index}
-                    style={{ fontSize: "1.3em", lineHeight: "1.3" }}
+            {methodData && (
+              <>
+                <img
+                  alt={methodData.name}
+                  height="400px"
+                  src={methodData.image}
+                  width="400px"
+                  style={{ borderRadius: "50%" }}
+                />
+                <h1
+                  style={{
+                    fontSize: "2em",
+                    margin: "10px 0",
+                    color: "White",
+                    textAlign: "center",
+                  }}
+                >
+                  {methodData.name}
+                </h1>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginTop: "20px",
+                    color: "White",
+                    flexDirection: "column",
+                    padding: "35px 50px",
+                    backgroundColor: "#593329",
+                    borderRadius: "15px",
+                  }}
+                >
+                  <span>Rating: {methodData.rating}/5</span>
+                </div>
+                {localStorage.getItem("isLoggedIn") === "true" && (
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      marginTop: "50px",
+                    }}
                   >
-                    {ingredient.trim()}
-                  </li>
-                ))}
-              </ul>
-            </div>
+                    <img
+                      src={AddTo}
+                      alt="AddTo"
+                      style={{
+                        borderRadius: "40px",
+                        cursor: "pointer",
+                      }}
+                      onClick={handleAddToWishlist}
+                    />
+                  </div>
+                )}
+              </>
+            )}
           </div>
+
+          {methodData && (
+            <div style={{ width: "65%" }}>
+              <div
+                style={{
+                  backgroundColor: "#fdf5e6",
+                  padding: "20px",
+                  borderRadius: "10px",
+                  height: "200px",
+                }}
+              >
+                <h2
+                  style={{
+                    fontSize: "1.5em",
+                    marginTop: "0",
+                    color: "#593329",
+                  }}
+                >
+                  {methodData.name} ({methodData.country} Cuisine)
+                </h2>
+                <p
+                  style={{
+                    fontSize: "1.3em",
+                    lineHeight: "1.5",
+                    color: "#593329",
+                  }}
+                >
+                  {methodData.description}
+                </p>
+              </div>
+              <div
+                style={{
+                  backgroundColor: "#fdf5e6",
+                  padding: "20px",
+                  borderRadius: "10px",
+                  marginTop: "20px",
+                  color: "#593329",
+                  height: "auto",
+                }}
+              >
+                <h2 style={{ fontSize: "1.5em", marginTop: "0" }}>
+                  Ingredients
+                </h2>
+                <ul style={{ listStyleType: "none", padding: "0" }}>
+                  {methodData.ingredient.split(",").map((ingredient, index) => (
+                    <li
+                      key={index}
+                      style={{ fontSize: "1.3em", lineHeight: "1.3" }}
+                    >
+                      {ingredient.trim()}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
+      {/* Second section */}
       <div
         style={{
           scrollSnapAlign: "start",
           textAlign: "center",
           padding: "20px",
           backgroundColor: "#593329",
-          height: "86vh",
+          height: "auto",
         }}
       >
         <div style={{ width: "70%", margin: "auto", color: "white" }}>
@@ -318,27 +353,31 @@ function CookingMethod() {
               style={{
                 display: "flex",
                 alignItems: "flex-start",
-                marginBottom: "20px",
               }}
             >
-              <div style={{ fontSize: "20px", textAlign: "left" }}>
-                {step.description}
+              <div style={{ fontSize: "17px", textAlign: "left" }}>
+                <ul>
+                  <li>{step.description}</li>
+                </ul>
               </div>
             </div>
           ))}
-          <div
-            style={{
-              fontSize: "25px",
-              color: "#F4C95D",
-              textAlign: "center",
-            }}
-          >
-            Now, you have a full guide to making {methodData.name} at home.
-            Enjoy the process!
-          </div>
+          {methodData && (
+            <div
+              style={{
+                fontSize: "25px",
+                color: "#F4C95D",
+                textAlign: "center",
+              }}
+            >
+              Now, you have a full guide to making {methodData.name} at home.
+              Enjoy the process!
+            </div>
+          )}
         </div>
       </div>
 
+      {/* Third section */}
       <div
         style={{
           scrollSnapAlign: "start",
@@ -389,7 +428,7 @@ function CookingMethod() {
                 }}
               >
                 <strong>
-                  User {comment.userId} ({comment.date}):
+                  {comment.userName} ({comment.date}):
                 </strong>
                 <p style={{ margin: "15px 0", textAlign: "left" }}>
                   {comment.description}
@@ -397,38 +436,41 @@ function CookingMethod() {
               </div>
             ))}
           </div>
-          <div style={{ marginTop: "30px", color: "#593329" }}>
-            <textarea
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-              placeholder="Type your comment here..."
-              style={{
-                width: "60%",
-                padding: "10px",
-                borderRadius: "5px",
-                border: "1px solid #593329",
-                fontSize: "1.1em",
-                marginBottom: "10px",
-                fontFamily: "Arial, sans-serif",
-                color: "#333",
-              }}
-            />
-            <br />
-            <button
-              onClick={handleAddComment}
-              style={{
-                backgroundColor: "#593329",
-                color: "white",
-                padding: "10px 20px",
-                borderRadius: "5px",
-                border: "none",
-                cursor: "pointer",
-                fontSize: "1em",
-              }}
-            >
-              Add Comment
-            </button>
-          </div>
+
+          {localStorage.getItem("isLoggedIn") === "true" && (
+            <div style={{ marginTop: "30px", color: "#593329" }}>
+              <textarea
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                placeholder="Type your comment here..."
+                style={{
+                  width: "60%",
+                  padding: "10px",
+                  borderRadius: "5px",
+                  border: "1px solid #593329",
+                  fontSize: "1.1em",
+                  marginBottom: "10px",
+                  fontFamily: "Arial, sans-serif",
+                  color: "#333",
+                }}
+              />
+              <br />
+              <button
+                onClick={handleAddComment}
+                style={{
+                  backgroundColor: "#593329",
+                  color: "white",
+                  padding: "10px 20px",
+                  borderRadius: "5px",
+                  border: "none",
+                  cursor: "pointer",
+                  fontSize: "1em",
+                }}
+              >
+                Add Comment
+              </button>
+            </div>
+          )}
         </div>
 
         <div
